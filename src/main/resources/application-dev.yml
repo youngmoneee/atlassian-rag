@@ -1,0 +1,15 @@
+spring:
+  ai:
+    retry:
+      on-client-errors: false
+      exclude-on-http-codes: [400]
+
+logging:
+  level:
+    root: INFO
+    org:
+      springframework:
+        ai:
+          chat:
+            client:
+              advisor: DEBUG

@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: youngmon
+  logging:
+    level:
+      root: WARNING
+  ai:
+    openai:
+      api-key: ${OPEN_AI_API_KEY}
+      chat:
+        options:
+          model: gpt-4o-mini
+      embedding:
+        options:
+          model: text-embedding-3-small
+        metadata-mode: none
+    vectorstore:
+      weaviate:
+        host: ${WEAVIATE:localhost:8080}
+        scheme: http
+        #initialize-schema: true
+server:
+  port: ${PORT}
