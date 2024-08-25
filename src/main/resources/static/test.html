@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <title>Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        #markdown-content, #markdown-origin {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        #copy-button {
+            margin-left: 10px;
+            padding: 5px 10px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Test page</h1>
+    
+    <!-- 입력 폼 -->
+    <form id="question-form">
+        <label for="input">질문:</label><br>
+        <textarea id="input" name="text" rows="10" cols="50" required></textarea><br><br>
+        <input type="submit" value="전송">
+    </form>
+
+    <!-- 렌더링된 마크다운이 표시될 영역 -->
+	<h2>렌더링</h2>
+    <div id="markdown-content"></div>
+
+	<!-- 마크다운 원본과 클립보드 버튼 -->
+    <h2>마크다운 원본</h2>
+    <div id="markdown-origin"></div>
+    <button id="copy-button">클립보드에 복사</button>
+
+    <script>
+        let streamText;
+        document.getElementById('question-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // 폼 제출 기본 동작 막기
+
+            streamText = '';
+            const inputText = document.getElementById('input').value;
+
+            fetch('/question', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'text/plain'
+                },
+                body: inputText
+            })
+            .then(response => {
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder('utf-8');
+
+                function read() {
+                    reader.read().then(({ done, value }) => {
+                        if (done) return ;
+
+                        const chunk = decoder.decode(value, { stream: true });
+                        streamText += chunk;
+                        document.getElementById('markdown-content').innerHTML = marked.parse(streamText);
+                        document.getElementById('markdown-origin').innerText = streamText;
+
+                        read();
+                    });
+                }
+
+                read();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+
+        // 클립보드에 복사하는 기능
+        document.getElementById('copy-button').addEventListener('click', function() {
+            const markdownText = document.getElementById('markdown-origin').innerText;
+
+            navigator.clipboard.writeText(markdownText).then(() => {
+                alert('클립보드에 복사되었습니다!');
+            }).catch(err => {
+                console.error('복사 실패:', err);
+            });
+        });
+    </script>
+</body>
+</html>
