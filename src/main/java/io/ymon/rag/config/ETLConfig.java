@@ -5,8 +5,8 @@ import io.ymon.rag.document.AtlassianDocumentReader;
 import io.ymon.rag.document.DocumentReader;
 import io.ymon.rag.document.DocumentTransformer;
 import io.ymon.rag.document.DocumentWriter;
+import io.ymon.rag.document.EmbeddingDocumentTransformer;
 import io.ymon.rag.document.FileDocumentWriter;
-import io.ymon.rag.document.OpenAIEmbeddingDocumentTransformer;
 import io.ymon.rag.document.StackOverflowDocumentReader;
 import io.ymon.rag.document.Transformer;
 import io.ymon.rag.document.WeaviateDocumentWriter;
@@ -24,6 +24,7 @@ import org.jsoup.nodes.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.document.Document;
+import org.springframework.ai.embedding.EmbeddingModel;
 import org.springframework.ai.openai.OpenAiEmbeddingModel;
 import org.springframework.ai.vectorstore.WeaviateVectorStore;
 import org.springframework.beans.factory.DisposableBean;
@@ -98,9 +99,9 @@ public class ETLConfig implements DisposableBean {
 
   //@Bean
   @Order()
-  @ConditionalOnBean(OpenAiEmbeddingModel.class)
-  DocumentTransformer transformer(OpenAiEmbeddingModel model) {
-    return new OpenAIEmbeddingDocumentTransformer(model);
+  @ConditionalOnBean(EmbeddingModel.class)
+  DocumentTransformer transformer(EmbeddingModel model) {
+    return new EmbeddingDocumentTransformer(model);
   }
 
   @Bean
