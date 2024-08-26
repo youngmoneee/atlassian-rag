@@ -3,17 +3,16 @@ package io.ymon.rag.document;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.vectorstore.VectorStore;
-import org.springframework.ai.vectorstore.WeaviateVectorStore;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
 @Slf4j
-public class WeaviateDocumentWriter implements DocumentWriter { //  Wrapper
+public class VectorStoreDocumentWriter implements DocumentWriter { //  Wrapper
 
   private final VectorStore vectorStore;
 
-  public WeaviateDocumentWriter(WeaviateVectorStore vectorStore) {
+  public VectorStoreDocumentWriter(VectorStore vectorStore) {
     this.vectorStore = vectorStore;
   }
 

@@ -9,7 +9,7 @@ import io.ymon.rag.document.EmbeddingDocumentTransformer;
 import io.ymon.rag.document.FileDocumentWriter;
 import io.ymon.rag.document.StackOverflowDocumentReader;
 import io.ymon.rag.document.Transformer;
-import io.ymon.rag.document.WeaviateDocumentWriter;
+import io.ymon.rag.document.VectorStoreDocumentWriter;
 import io.ymon.rag.annotation.EntryPoint;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -25,7 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.embedding.EmbeddingModel;
-import org.springframework.ai.vectorstore.WeaviateVectorStore;
+import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -116,8 +116,8 @@ public class ETLConfig implements DisposableBean {
 
   //@Bean
   //@Primary
-  DocumentWriter weaviateDocumentWriter(WeaviateVectorStore vectorStore) {
-    return new WeaviateDocumentWriter(vectorStore);
+  DocumentWriter vectorstoreDocumentWriter(VectorStore vectorStore) {
+    return new VectorStoreDocumentWriter(vectorStore);
   }
 
   //@Bean
