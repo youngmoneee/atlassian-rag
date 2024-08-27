@@ -16,13 +16,15 @@ git clone https://github.com/youngmoneee/atlassian-rag.git && cd atlassian-rag
 ### Vector Database
 
 - 해당 어플리케이션은 개발 및 테스트 목적으로 Docker-compose로 구동되는 Weaviate DB를 사용합니다.
+```bash
+docker-compose up -d
+```
 
 - 프로덕션 환경에서 사용할 벡터 데이터베이스가 있다면, 아래 설정을 통해 구성을 변경해주세요.
 
 https://github.com/youngmoneee/atlassian-rag/blob/5953165b3475148c2fc32c54e9f1fbc9672811b6/src/main/resources/application.yml#L18-L20
 
-- 프로퍼티 설정과 관련해 참고 가능한 문서는 아래와 같습니다.
-    > [Vector DB 공식문서](https://docs.spring.io/spring-ai/reference/api/vectordbs.html#_available_implementations)
+- 관련 설정은 [Vector DB 공식문서](https://docs.spring.io/spring-ai/reference/api/vectordbs.html#_available_implementations)를 참고하세요.
 
 ### Scrape
 
