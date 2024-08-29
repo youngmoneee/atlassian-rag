@@ -25,7 +25,7 @@ public class QnaAdvisor implements RequestResponseAdvisor {
           ---------------------
           {%s}
           ---------------------
-          사용자의 질문과 함께 주어진 Context는 다른 사용자가 겪은 유사한 문제와 이에 대한 답변이며, 사전 지식보다 우선적으로 참고되어야 합니다.
+          사용자의 질문과 함께 주어진 Context는 다른 사용자가 겪은 유사한 문제와 이에 대한 답변이며, 사전 학습된 정보보다 우선적으로 참고되어야 합니다.
           
           """, CONTEXT);
 
@@ -64,6 +64,7 @@ public class QnaAdvisor implements RequestResponseAdvisor {
           Map<String, Object> userParams = new HashMap<>(request.userParams());
           userParams.put(CONTEXT, metaDataList.stream().map(MetaData::document)
               .collect(Collectors.joining(System.lineSeparator())));
+          userParams.put(REFERENCED_URLS, metaDataList.stream().map(MetaData::url).toList());
           context.put(REFERENCED_URLS, metaDataList.stream().map(MetaData::url).toList());
 
           result

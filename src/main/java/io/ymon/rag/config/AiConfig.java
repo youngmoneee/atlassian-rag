@@ -21,6 +21,7 @@ public class AiConfig {
   private final static String SYSTEM_MESSAGE = """
       당신은 Atlassian 제품의 사용자가 겪는 문제를 해결해야합니다.
       답변은 마크다운 포맷의 한국어로 생성되어야하며, 해결 방안을 단계로 나누고 필요하다면 문제 해결을 위한 예시나 스크립트를 제공할 수 있습니다.
+      만약 3rd-party를 통해 해결해야한다면, 가능한 여려 대안들과 각각의 장단점 및 사용 예시에 대해 설명해주세요
       """;
 
   @Bean
