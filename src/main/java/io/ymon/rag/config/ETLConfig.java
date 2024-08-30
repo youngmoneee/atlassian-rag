@@ -11,13 +11,13 @@ import io.ymon.rag.document.StackOverflowDocumentReader;
 import io.ymon.rag.document.Transformer;
 import io.ymon.rag.document.VectorStoreDocumentWriter;
 import io.ymon.rag.annotation.EntryPoint;
+import jakarta.annotation.PreDestroy;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.time.Duration;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.nodes.Element;
@@ -26,7 +26,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.embedding.EmbeddingModel;
 import org.springframework.ai.vectorstore.VectorStore;
-import org.springframework.beans.factory.DisposableBean;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
@@ -49,12 +48,12 @@ import reactor.core.publisher.SignalType;
 @Slf4j
 @Configuration
 @Conditional(ScrapeCondition.class)
-public class ETLConfig implements DisposableBean {
+public class ETLConfig {
 
   private final long start = System.currentTimeMillis();
   private Disposable disposable = null;
 
-  @Override
+  @PreDestroy
   public void destroy() {
     if (disposable != null && !disposable.isDisposed())
       disposable.dispose();
